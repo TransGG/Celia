@@ -6,6 +6,8 @@ const {
 } = require("discord.js");
 
 module.exports = async (client, message) => {
+  if (message.author.bot) return;
+
   if (message.content == ".pk") {
     const pkEmbed = new EmbedBuilder()
       .setColor(0xd70040)
@@ -26,9 +28,7 @@ module.exports = async (client, message) => {
     message.reply({ embeds: [pkEmbed], components: [row] });
   }
 
-  if (message.author.bot || !message.mentions || !message.mentions.users) {
-    return;
-  }
+  if (!message.mentions || !message.mentions.users) return;
 
   const pings = message.mentions.users.map((user) => user.id);
 
