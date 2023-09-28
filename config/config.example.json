@@ -1,4 +1,14 @@
 {
     "token": "",
-    "noPings": ""
+    "noPings": "",
+    "reddit" : {
+        "client": {
+            "userAgent": "",
+            "clientId": "",
+            "clientSecret": "",
+            "refreshToken": ""
+        },
+        "subreddit": "",
+        "webhook_url": ""
+    }
 }
