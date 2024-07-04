@@ -58,7 +58,7 @@ module.exports = async (client, message) => {
       components: [
         new ActionRowBuilder().addComponents(
           new ButtonBuilder()
-            .setCustomId("ack-and-del-no-ping-reply")
+            .setCustomId(`ack-and-del:${message.author.id}`)
             .setLabel("OK, I understand")
             .setStyle(ButtonStyle.Success)
         )

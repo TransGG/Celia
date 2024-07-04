@@ -12,8 +12,16 @@ module.exports = async (client, interaction) => {
         );
 
       interaction.reply({ embeds: [pluralityEmbed], ephemeral: true });
-    } else if (command === "ack-and-del-no-ping-reply") {
-      await interaction.message.delete().catch(() => null);
+    } else if (command.startsWith("ack-and-del:")) {
+      const expectedId = command.split(":")[1];
+      if (expectedId === interaction.user.id) {
+        await interaction.message.delete().catch(() => null);
+      } else {
+        await interaction.reply({
+          content: "Thank you for reading; only the user this message is in response to is able to dismiss this message to ensure it has been acknowledged.",
+          ephemeral: true
+        });
+      }
     }
   }
 };
