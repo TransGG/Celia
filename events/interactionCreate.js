@@ -12,6 +12,8 @@ module.exports = async (client, interaction) => {
         );
 
       interaction.reply({ embeds: [pluralityEmbed], ephemeral: true });
+    } else if (command === "ack-and-del-no-ping-reply") {
+      await interaction.message.delete().catch(() => null);
     }
   }
 };
