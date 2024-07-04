@@ -7,7 +7,7 @@ const {
   TimestampStyles
 } = require("discord.js");
 
-const pingMsgDeleteTimeMs = 7 * 1000;
+const pingMsgDeleteTimeMs = 20 * 1000;
 
 module.exports = async (client, message) => {
   if (message.author.bot) return;
@@ -51,14 +51,22 @@ module.exports = async (client, message) => {
 
   if (warn) {
     // add just under 1 second to timestamp so it doesn't tick over to '1 second ago' while still
-    // initially displaying 'in 7 seconds'
+    // initially displaying 'in 20 seconds'
     const selfDestructDate = new Date(new Date().getTime() + pingMsgDeleteTimeMs + 999)
-    const replyMessage = await message.reply(
-      `### This member has the no pings role, please don't ping them!\n(This message will auto-delete ${time(selfDestructDate, TimestampStyles.RelativeTime)})`
-    );
+    const replyMessage = await message.reply({
+      content: `### This member has the no pings role, please don't ping them!\n(This message will delete itself ${time(selfDestructDate, TimestampStyles.RelativeTime)} or when acknowledged)`,
+      components: [
+        new ActionRowBuilder().addComponents(
+          new ButtonBuilder()
+            .setCustomId("ack-and-del-no-ping-reply")
+            .setLabel("OK, I understand")
+            .setStyle(ButtonStyle.Success)
+        )
+      ]
+    });
 
     setTimeout(() => {
-      replyMessage.delete();
+      replyMessage.delete().catch(() => null);
     }, pingMsgDeleteTimeMs);
   }
 };
